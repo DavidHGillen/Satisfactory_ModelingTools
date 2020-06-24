@@ -23,14 +23,14 @@ But for things like decals we'll need to rip a copy of some content from the gam
 2. Browse to the root of your Satisfactory install in Steam or Epic and `Select Folder`
 3. Check `Override Game Detection` and set it to UE 4.22
 4. Now hit `OK`, this may take a few moments to finish
-5. Use the explorer panel on the right to browse and find these two textures
+5. Use the explorer panel to browse and find these two textures
     * `Game > FactoryGame > Buildable > ~Shared > Texture > ColorAtlas_Alb.uasset`
     * `Game > FactoryGame > Buildable > ~Shared > Texture > PanelAtlas_Nor.uasset`
 6. We'll need to export these as .TGAs into the place where we downloaded or cloned this repo
 7. Once exported our folder should have a new folder called `Game`
 
 Our files use relative paths so this should be it and the content will be as good as it can be.
-A third image is part of the download. It has been remade, labeled and given a UV grid for reference, with a plain alternative if preffered.
+A third image is part of the download. It has been remade, labeled and given a UV grid for reference, with a plain alternative if preferred.
 
 ## Usage
 1. Open your new machine/prop in Blender
