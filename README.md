@@ -2,6 +2,7 @@
 Community modding tools and utilities specifically for modeling assets intended for Coffee Stain Studios game Satisfactory. Need help? Read the modding docs or ask on discord.
 
 Docs: https://docs.ficsit.app/
+
 Discord: https://discord.gg/xkVJ73E
 
 ## License
