@@ -13,7 +13,8 @@ This content was built from scratch by referencing assets ripped from the game a
 2. A vertex normal editing plugin, like [Y.A.V.N.E.](https://github.com/fedackb/yavne)
 3. Clone or download the repo
 4. Setup the material proxies (read below)
-5. Use the content!
+5. First time opened in Blender it may ask to run [scripts](https://github.com/DavidHGillen/Satisfactory_ModelingTools/blob/master/BlenderScripts.md), allow them. They're safe 
+6. Use the content!
 
 ### Setup material proxies
 Because Satisfactory uses complex procedural shaders on their meshes and distributing ripped content is illegal we'll need lookalike standins for their materials.
@@ -38,7 +39,7 @@ A third image is part of the download. It has been remade, labeled and given a U
 2. Go to `File > Append` in the top application menu
 3. Browse to and double click a file like `SF_CommonParts.blend`
 4. Double click `Objects` from the list that comes up
-5. Pick an object from the list (If unsure what is what, cancel and browse the file)
+5. Pick an object from the list (If unsure what is what, cancel and [browse the file](https://github.com/DavidHGillen/Satisfactory_ModelingTools/blob/master/SF_CommonParts.md))
 6. The content should now import into your file
 7. In your file, make sure the new object is selected
 8. Find the `Properties` panel and the `Material Properties` tab
