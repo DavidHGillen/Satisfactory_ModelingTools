@@ -25,8 +25,8 @@ class SFTools_TextMapRef:
             r = (rect[0] + rect[2]) / uvDiv
         )
         self.physrect = EdgeRect(
-            t = (rect[3]/-2.0 + baseline/uvDiv) * physMod,
-            b = (rect[3]/2.0 + baseline/uvDiv) * physMod,
+            t = (rect[3]/-2.0 + baseline) * physMod,
+            b = (rect[3]/2.0 + baseline) * physMod,
             l = 0,
             r = rect[2] * physMod
         )
@@ -91,6 +91,12 @@ class SFTools_Props(bpy.types.PropertyGroup):
     LastMachineLabel: bpy.props.StringProperty(default = "M4CH1N3 - N4M3!")
     LabelKerning: bpy.props.FloatProperty(default = -0.002)
     LabelMaterial: bpy.props.PointerProperty(type = bpy.types.Material)
+    LabelAlignment: bpy.props.EnumProperty(items = [
+        ("NONE", "None", "Spawn at world origin left aligned", 'EMPTY_DATA', 0),
+        ("LEFT", "Left", "Spawn at 3D Cursor left aligned", 'ANCHOR_LEFT', 1),
+        ("CENTER", "Center", "Spawn at 3D Cursor center aligned", 'ANCHOR_CENTER', 2),
+        ("RIGHT", "Right", "Spawn at 3D Cursor right aligned", 'ANCHOR_RIGHT', 3)
+    ], default = "LEFT")
 
 
 
@@ -148,12 +154,25 @@ class SFTools_GenerateLabel(bpy.types.Operator):
             i = 0
             scene = context.scene
             
+            # do we need to move the vertecies back, needed full length to calculate this
+            align = 0
+            if propref.LabelAlignment == "CENTER":
+                align = (offset - propref.LabelKerning) / 2.0
+            if propref.LabelAlignment == "RIGHT":
+                align = offset - propref.LabelKerning
+                
+            if align != 0:
+                for ind in range(0, len(pos)):
+                    pos[ind] = (pos[ind][0] - align, pos[ind][1], pos[ind][2])
+            
+            # create mesh and attach
             mesh.from_pydata(pos, [], face)
             mesh.update()
             obj = bpy.data.objects.new("Label: " + result, mesh)
             obj.data = mesh
             scene.collection.objects.link(obj)
             
+            # open object for editing because we have to make changes
             context.view_layer.objects.active = obj
             bpy.ops.object.mode_set(mode='EDIT')
             bm = bmesh.from_edit_mesh(mesh)
@@ -165,7 +184,13 @@ class SFTools_GenerateLabel(bpy.types.Operator):
                 for loop in face.loops:
                     loop[uv_layer].uv = uvs[i]
                     i += 1
+                    
+            # move to cursor
+            if propref.LabelAlignment != "NONE":
+                obj.location = scene.cursor.location
+                obj.rotation_euler = scene.cursor.rotation_euler
             
+            # close mesh now we're done
             bmesh.update_edit_mesh(mesh)
             bpy.ops.object.mode_set(mode='OBJECT')
             
@@ -187,13 +212,22 @@ class SFTools_LabelMakerPanel(bpy.types.Panel):
 
         col = layout.column()
         col.prop(scene.SFTools_Props, "LastMachineLabel", text="", icon = 'FILE_TEXT')
+
+        # use distinct labels for better ui across all elements
         row = col.row()
-        row.label(text = "Letter Spacing")
+        row.label(text = "Letter Spacing:")
         row.prop(scene.SFTools_Props, "LabelKerning", text="")
+        
         row = col.row()
-        row.label(text = "Decal Material")
+        row.label(text = "Decal Material:")
         row.prop(scene.SFTools_Props, "LabelMaterial", text="")
-        col.separator()
+        
+        row = col.row()
+        row.label(text = "Alignment:")
+        row.prop(scene.SFTools_Props, "LabelAlignment", text="")
+        
+        col.separator() # improves readability
+        
         col.operator("object.sftools_generate_label")
 
 
