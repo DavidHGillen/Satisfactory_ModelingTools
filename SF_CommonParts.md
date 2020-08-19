@@ -43,7 +43,7 @@ These connectors have the most detail, more chrome, and use both types of decal.
 Recommended usage is on small but detailed machines like Smelters and Forges where the detail is close to the player.
 
 ## Walkway parts
-Many machines have dedicated walkablke sections and a variety of ladders placed around them. Both types of walkway floor are decal based and need manual tiling and the ladders are unique lengths every time. As such there's several part collections and few preassembled pieces.
+Many machines have dedicated walkable sections and a variety of ladders placed around them. Both types of walkway floor are decal based and need manual tiling and the ladders are unique lengths every time. As such there's several part collections and few preassembled pieces.
 
 ### Walkway_Deflector
 These prefabs represent some common sizes of the angle deflection panels that are on the undersides of walkways. Small, Medium, and Large show different and common ways to assemble the pieces found in the `Deflector Parts` collection. These origins are designed to snap to the middle of the outside edge of a walkway.
@@ -51,7 +51,7 @@ These prefabs represent some common sizes of the angle deflection panels that ar
 ### Ladder/Walkway Parts
 This collection contains two samples of walkway surfaces and some modifier based ladder pieces.
 
-Do not duplicate the Samples and instead use their sizes and ub mapping as a guideline for your own walkway. There is no standardization of walkway sizes or implementations.
+Do not duplicate the Samples and instead use their sizes and uv mapping as a guideline for your own walkway. There is no standardization of walkway sizes or implementations.
 
 When resizing the ladder be sure to adjust the array modifier on the rungs, and resize the uv's on the side supports when you stretcch or shorten it.
 
