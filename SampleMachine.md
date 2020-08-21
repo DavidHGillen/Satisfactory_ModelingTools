@@ -1,0 +1,7 @@
+# Sample Machine
+This is a simple, nodescript box with SF styled details and a belt in/out. It can be used with attirubtation for any mod, but I would recommend learning from it instead.
+
+## Usage
+I keep meshes in parts because that's easier to work with and then emrge them at import time or export a merged version.
+
+This file contains both a skeletal mesh and static mesh if you wish to experiment with that.
