@@ -28,6 +28,7 @@ If it needs reloading there will open be red warnings telling you as such on the
 ## Using the tools
 In the top right of the 3D view is a hidden panel, open it with `n` or the little arrow `<`
 The vertical list of panels should contain `SFTools` click on that to open up the panels
+The scale of these tools may be off by a factor of 100 due to how blender handles unit scales for importing into UE.
 
 ### Label Maker
 This generates labels for machines like the Smelter's `H-0TAF800`, it trims the input to valid characters and saves the settings into the blender file.

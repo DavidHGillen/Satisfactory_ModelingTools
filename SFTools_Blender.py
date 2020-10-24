@@ -8,7 +8,7 @@ import bmesh
 
 # Declarations
 uvDiv = 2048 # texture size
-physMod = 1.0/920.0 # feel right number
+physMod = 1.0/9.2 # feel right number
 class EdgeRect:
     def __init__(self, t, l, b, r):
         self.t = t
@@ -87,9 +87,14 @@ texthash['\\']= SFTools_TextMapRef([1125, 1716, 31,60], 0);
 texthash['['] = SFTools_TextMapRef([1173, 1717, 26,72], 0);
 texthash[']'] = SFTools_TextMapRef([1215, 1717, 26,72], 0);
 
+#These letters aren't strictly written but we can get clever with reuse
+texthash['.'] =       SFTools_TextMapRef([ 658, 1758, 18,18], -22);
+texthash['colonLo'] = SFTools_TextMapRef([ 658, 1758, 18,18], -16);
+texthash['colonHi'] = SFTools_TextMapRef([ 658, 1758, 18,18],  16);
+
 class SFTools_Props(bpy.types.PropertyGroup):
-    LastMachineLabel: bpy.props.StringProperty(default = "M4CH1N3 - N4M3!")
-    LabelKerning: bpy.props.FloatProperty(default = -0.002)
+    LastMachineLabel: bpy.props.StringProperty(default = "M4:CH1N3 - N4M3!")
+    LabelKerning: bpy.props.FloatProperty(default = 0.2)
     LabelMaterial: bpy.props.PointerProperty(type = bpy.types.Material)
     LabelAlignment: bpy.props.EnumProperty(items = [
         ("NONE", "None", "Spawn at world origin left aligned", 'EMPTY_DATA', 0),
@@ -105,6 +110,25 @@ class SFTools_GenerateLabel(bpy.types.Operator):
     bl_idname = "object.sftools_generate_label"
     bl_label = "Generate Label"
     
+    def appendVertexData(self, pos, uvs, face, mapRef, offset):
+        index = len(pos) # get this early to prevent pos changes corrupting value
+        
+        pos += [
+            (mapRef.physrect.l + offset, mapRef.physrect.t, 0),
+            (mapRef.physrect.r + offset, mapRef.physrect.t, 0),
+            (mapRef.physrect.r + offset, mapRef.physrect.b, 0),
+            (mapRef.physrect.l + offset, mapRef.physrect.b, 0)
+        ]
+        uvs += [
+            (mapRef.uvrect.l, mapRef.uvrect.t),
+            (mapRef.uvrect.r, mapRef.uvrect.t),
+            (mapRef.uvrect.r, mapRef.uvrect.b),
+            (mapRef.uvrect.l, mapRef.uvrect.b)
+        ]
+        face += [
+            (index, index+1, index+2, index+3)
+        ]
+    
     def execute(self, context):
         ignored = ''
         result = ''
@@ -119,31 +143,23 @@ class SFTools_GenerateLabel(bpy.types.Operator):
         face = []
         
         for element in source:
-            if element == ' ':
-                offset += texthash['i'].offset
+            if element == ' ': # just add a space
+                offset += texthash['i'].offset + propref.LabelKerning
                 result += element
-            else:
+                
+            elif element == ':': # add the two "." of a colon
+                self.appendVertexData(pos, uvs, face, texthash['colonLo'], offset);
+                self.appendVertexData(pos, uvs, face, texthash['colonHi'], offset);
+                
+                offset += texthash['.'].offset + propref.LabelKerning
+                result += element
+                
+            else: # add the letter if found
                 mapRef = None
                 try: mapRef = texthash[element]
                 except: ignored += element
                 else:
-                    index = len(pos)
-                    
-                    pos += [
-                        (mapRef.physrect.l + offset, mapRef.physrect.t, 0),
-                        (mapRef.physrect.r + offset, mapRef.physrect.t, 0),
-                        (mapRef.physrect.r + offset, mapRef.physrect.b, 0),
-                        (mapRef.physrect.l + offset, mapRef.physrect.b, 0)
-                    ]
-                    uvs += [
-                        (mapRef.uvrect.l, mapRef.uvrect.t),
-                        (mapRef.uvrect.r, mapRef.uvrect.t),
-                        (mapRef.uvrect.r, mapRef.uvrect.b),
-                        (mapRef.uvrect.l, mapRef.uvrect.b)
-                    ]
-                    face += [
-                        (index, index+1, index+2, index+3)
-                    ]
+                    self.appendVertexData(pos, uvs, face, mapRef, offset);
                     
                     offset += mapRef.offset + propref.LabelKerning
                     result += element
