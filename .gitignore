@@ -1,3 +1,4 @@
 Game
 *.afdesign
 *.blend[0-9]*
+*_Temp.*

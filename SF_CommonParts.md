@@ -30,6 +30,8 @@ These are the points where your factory is connected to the power network.
 Their origin is placed so you can use the same position for the power connector component in editor.
 There are three distinct styles based upon the usage and representation in game.
 
+Note: Both pipeline pumps re-use the Wall PowerPole mk1 mesh and do not have included in the base mesh.
+
 #### PowerConnecter_Plain
 These connectors are the plainest and do not use any decals.
 Recommended usage is large machines where detail would be wasted like a train station or nuclear plant, or a small machine where extra detail would be too much, like the JumpPads.
