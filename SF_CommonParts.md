@@ -30,11 +30,11 @@ These are the points where your factory is connected to the power network.
 Their origin is placed so you can use the same position for the power connector component in editor.
 There are three distinct styles based upon the usage and representation in game.
 
-Note: Both pipeline pumps re-use the Wall PowerPole mk1 mesh and do not have included in the base mesh.
+Note: Both pipeline pump mk1 & mk2 re-use the Wall PowerPole mk1 mesh. They do not include it in their base mesh.
 
 #### PowerConnecter_Plain
 These connectors are the plainest and do not use any decals.
-Recommended usage is large machines where detail would be wasted like a train station or nuclear plant, or a small machine where extra detail would be too much, like the JumpPads.
+Recommended usage is large machines where detail would be wasted like a train station or nuclear plant, or a small machine where extra detail would be too much.
 
 #### PowerConnecter_Hazard
 These connectors have simple masked hazard decals added up top and a touch of chrome.
@@ -43,6 +43,10 @@ Recommended usage is on medium to large machines where the detail can be noticed
 #### PowerConnecter_Detailed
 These connectors have the most detail, more chrome, and use both types of decal.
 Recommended usage is on small but detailed machines like Smelters and Forges where the detail is close to the player.
+
+#### PowerConnecter_Compact
+These connectors are similar to Plain but are designed for a much more low lying and compact frame.
+Recommended usage is on low lying surfaces or props that the Plain variant feels to big on like JumpPads.
 
 ## Walkway parts
 Many machines have dedicated walkable sections and a variety of ladders placed around them. Both types of walkway floor are decal based and need manual tiling and the ladders are unique lengths every time. As such there's several part collections and few preassembled pieces.
