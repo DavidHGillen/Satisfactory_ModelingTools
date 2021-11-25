@@ -16,6 +16,7 @@ These are the classic machine input and output meshes.
 Some releases of the game have had separate meshes, but they're usually part of the main mesh.
 Their origin is placed so you can use the same position for the input/output components in editor.
 Unfortunately the exact depth into the machine varies a lot and will need to be customized per machine.
+There is also a non vanilla sample of a unique way to merge inputs with the "doubly" variant.
 
 #### FactoryBelt_In/Out
 Position these 1.00m above the floor of your mesh to match the standard height.
