@@ -23,7 +23,7 @@ But for things like decals we'll need to rip a copy of some content from the gam
 
 1. Get [Umodel](https://www.gildor.org/en/projects/umodel) and open it up
 2. Browse to the root of your Satisfactory install in Steam or Epic and `Select Folder`
-3. Check `Override Game Detection` and set it to UE 4.25 (for pre update 4 builds pick .23 or .22)
+3. Check `Override Game Detection` and set it to UE 4.26
 4. Now hit `OK`, this may take a few moments to finish
 5. Use the explorer panel to browse and find these two textures
     * `Game > FactoryGame > Buildable > ~Shared > Texture > ColorAtlas_Alb.uasset`
