@@ -170,7 +170,7 @@ class SFTools_GenerateLabel(bpy.types.Operator):
             i = 0
             scene = context.scene
             
-            # do we need to move the vertecies back, needed full length to calculate this
+            # do we need to move the verticies back, needed full length to calculate this
             align = 0
             if propref.LabelAlignment == "CENTER":
                 align = (offset - propref.LabelKerning) / 2.0
