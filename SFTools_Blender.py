@@ -94,9 +94,9 @@ texthash['colonHi'] = SFTools_TextMapRef([ 658, 1758, 18,18],  16);
 
 class SFTools_Props(bpy.types.PropertyGroup):
     LastMachineLabel: bpy.props.StringProperty(default = "M4:CH1N3 - N4M3!")
-    LabelKerning: bpy.props.FloatProperty(default = 0.2)
-    LabelMaterial: bpy.props.PointerProperty(type = bpy.types.Material)
-    LabelAlignment: bpy.props.EnumProperty(items = [
+    LabelKerning:     bpy.props.FloatProperty(default = 0.2)
+    LabelMaterial:    bpy.props.PointerProperty(type = bpy.types.Material)
+    LabelAlignment:   bpy.props.EnumProperty(items = [
         ("NONE", "None", "Spawn at world origin left aligned", 'EMPTY_DATA', 0),
         ("LEFT", "Left", "Spawn at 3D Cursor left aligned", 'ANCHOR_LEFT', 1),
         ("CENTER", "Center", "Spawn at 3D Cursor center aligned", 'ANCHOR_CENTER', 2),
@@ -109,10 +109,11 @@ class SFTools_Props(bpy.types.PropertyGroup):
 class SFTools_GenerateLabel(bpy.types.Operator):
     bl_idname = "object.sftools_generate_label"
     bl_label = "Generate Label"
-    
+    bl_description = "Generate the correctly UV'd geometry to display a decal based label with your text. Impossible characters will be removed."
+
     def appendVertexData(self, pos, uvs, face, mapRef, offset):
-        index = len(pos) # get this early to prevent pos changes corrupting value
-        
+        index = len(pos) # get this early to prevent changes to pos corrupting the value
+
         pos += [
             (mapRef.physrect.l + offset, mapRef.physrect.t, 0),
             (mapRef.physrect.r + offset, mapRef.physrect.t, 0),
@@ -128,91 +129,91 @@ class SFTools_GenerateLabel(bpy.types.Operator):
         face += [
             (index, index+1, index+2, index+3)
         ]
-    
+
     def execute(self, context):
         ignored = ''
         result = ''
         offset = 0
-        
+
         propref = context.scene.SFTools_Props
         source = propref.LastMachineLabel.lower()
-        
+
         mesh = bpy.data.meshes.new("")
         pos = []
         uvs = []
         face = []
-        
+
         for element in source:
             if element == ' ': # just add a space
                 offset += texthash['i'].offset + propref.LabelKerning
                 result += element
-                
+
             elif element == ':': # add the two "." of a colon
                 self.appendVertexData(pos, uvs, face, texthash['colonLo'], offset);
                 self.appendVertexData(pos, uvs, face, texthash['colonHi'], offset);
-                
+
                 offset += texthash['.'].offset + propref.LabelKerning
                 result += element
-                
+
             else: # add the letter if found
                 mapRef = None
                 try: mapRef = texthash[element]
                 except: ignored += element
                 else:
                     self.appendVertexData(pos, uvs, face, mapRef, offset);
-                    
+
                     offset += mapRef.offset + propref.LabelKerning
                     result += element
-                    
-        if len(ignored) > 0: print("Ignored chars with no equivelant: " + ignored)
-                    
+
+        if len(ignored) > 0: print("Ignored chars with no equivalent: " + ignored)
+
         if len(result) > 0:
             i = 0
             scene = context.scene
-            
-            # do we need to move the verticies back, needed full length to calculate this
+
+            # do we need to move the vertices back, needed full length to calculate this
             align = 0
             if propref.LabelAlignment == "CENTER":
                 align = (offset - propref.LabelKerning) / 2.0
             if propref.LabelAlignment == "RIGHT":
                 align = offset - propref.LabelKerning
-                
+
             if align != 0:
                 for ind in range(0, len(pos)):
                     pos[ind] = (pos[ind][0] - align, pos[ind][1], pos[ind][2])
-            
+
             # create mesh and attach
             mesh.from_pydata(pos, [], face)
             mesh.update()
             obj = bpy.data.objects.new("Label: " + result, mesh)
             obj.data = mesh
             scene.collection.objects.link(obj)
-            
+
             # open object for editing because we have to make changes
             context.view_layer.objects.active = obj
             bpy.ops.object.mode_set(mode='EDIT')
             bm = bmesh.from_edit_mesh(mesh)
-            
+
             obj.data.materials.append(propref.LabelMaterial)
-            
+
             uv_layer = bm.loops.layers.uv.verify()
             for face in bm.faces:
                 for loop in face.loops:
                     loop[uv_layer].uv = uvs[i]
                     i += 1
-                    
+
             # move to cursor
             if propref.LabelAlignment != "NONE":
                 obj.location = scene.cursor.location
                 obj.rotation_euler = scene.cursor.rotation_euler
-            
+
             # close mesh now we're done
             bmesh.update_edit_mesh(mesh)
             bpy.ops.object.mode_set(mode='OBJECT')
-            
+
             propref.LastMachineLabel = result
             mesh.name = "LabelMesh"
-        
+
         return {'FINISHED'}
 
 class SFTools_LabelMakerPanel(bpy.types.Panel):
@@ -233,17 +234,17 @@ class SFTools_LabelMakerPanel(bpy.types.Panel):
         row = col.row()
         row.label(text = "Letter Spacing:")
         row.prop(scene.SFTools_Props, "LabelKerning", text="")
-        
+
         row = col.row()
         row.label(text = "Decal Material:")
         row.prop(scene.SFTools_Props, "LabelMaterial", text="")
-        
+
         row = col.row()
         row.label(text = "Alignment:")
         row.prop(scene.SFTools_Props, "LabelAlignment", text="")
-        
+
         col.separator() # improves readability
-        
+
         col.operator("object.sftools_generate_label")
 
 
