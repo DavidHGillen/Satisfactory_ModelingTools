@@ -1,15 +1,33 @@
 # SF_CommonParts.blend
 This readme breaks down specifics about this file!
 
-There are many minor discrepencies or optimizations in many meshes between machines.
+There are many minor discrepancies or optimizations in many meshes between machines.
+They shouldn't be noticeable to anyone who doesn't know what to look for so don't worry about not matching the vanilla game.
 The versions presented here represent a baseline that follows consistent rules.
-Because each usage varies feel free to customize away with UV changes, shape tweaks, or decals.
+Because each usage varies, feel free to customize away with UV changes, shape tweaks, or decals.
 
 ## File Organization
-Top level meshes are preconstructed setups that mirror the usage of the parts in game.
+Top level meshes are preassembled setups that mirror the usage of the parts in game.
 The collections are groups of parts used to make the prefabs and shouldn't be used without collapsing down to less objects.
 In several places splines or other helpers are used to help us make shapes (prefixed with aaa_), but only meshes can be used in game so convert your splines to meshes before export.
 In several places non content, non helper objects exist like the info text or directional light, these are prefixed with zzz_ and can be ignored.
+
+## Materials
+There are 4 pinned materials with Fake Users in the file.
+All 4 are tied to a specific common material in the game
+
+### Decal_Normal/Decal_Masked
+These are the two decal material used with floating geometry to add more detail to meshes.
+
+### MI_FactoryMachine
+Standard machine texture to be used with most models.
+Aim for the same texel density as my example pieces when possible.
+Check the https://docs.ficsit.app/satisfactory-modding/latest/Development/Modeling/MainMaterials.html for more info.
+
+### MI_FactoryBaked
+Used with a machine that has some kind of unique textured unwrap and bake.
+This gets expensive the more machines do it so try to avoid it.
+Check the https://docs.ficsit.app/satisfactory-modding/latest/Development/Modeling/MainMaterials.html for more info.
 
 ## Belt/Pipe Inputs/Outputs
 These are the classic machine input and output meshes.
@@ -25,6 +43,12 @@ Visual differences between in and out are mostly the arrows and flange details.
 ##### FactoryPipe_In/Out/Both
 Position these 1.75m above the floor of your mesh to match the standard height.
 Visual differences between versions are mostly the arrows and flange details.
+
+##### Extendo Variants
+Uniquely named, the Extendo variants are a thought experiment and a common request to allow for more closely packed inputs and outputs on machines.
+They do not exist in the vanilla game and are an invention of this repo.
+When using them be sure to "join" all the objects into one, and then "merge by distance".
+This will remove the vertices I had to duplicate to make the individual parts.
 
 ## Power Connectors
 These are the points where your factory is connected to the power network.

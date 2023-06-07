@@ -1,4 +1,6 @@
 Game
+_sources
+*.autosave*
 *.afdesign
 *.blend[0-9]*
 *_Temp.*

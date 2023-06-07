@@ -48,21 +48,27 @@ Most assume you know how to rip content so let's cover it here, ripping for pers
 Meshes are coated in decals to add detail the repeating textures can't manage.
 The blender file has a spot where it knows to look for them, so let's export them there.
 
-1. We need to boot up UModel to rip two assets
-2. Use the explorer panel and find these two textures
+1. Boot up UModel and rip the following two textures
     * `Game > FactoryGame > Buildable > ~Shared > Texture > ColorAtlas_Alb.uasset`
     * `Game > FactoryGame > Buildable > ~Shared > Texture > PanelAtlas_Nor.uasset`
-3. Export these as .TGAs, place them directly into the root folder for this project
-4. Once the export is done the root should have a new folder called `Game` and matching sub folders to the paths above
-5. Reopen the blender files and it should show the decals textures now. Unfortunately it's not setup to actually show the normal only decals as just normals.
+2. Export these as `.TGA`s, list the export directory as the root folder for this project repo
+3. Once the export is done the root should have a new folder called `Game` and matching sub folders to the paths above
+4. Reopen the blender files and it should show the decals textures now. Unfortunately it's not setup to actually show the normal only decals as just normals.
 
 Our files use relative paths so this should be it and the content will be as good as it can be.
 A third image is part of the download. It has been remade, labelled and given a UV grid for reference, with a plain alternative if preferred.
 
 ### Setup Substance Designer .sbar of factory metals
 Not everything can use FactoryBase and sometimes we need to reluctantly paint unique Textures.
-But we still want them to look like the materials the game uses, we're going to rip some content from the game and then configure Substance to use it
+But we still want them to look like the materials the game uses, we're going to rip some content from the game and then configure Substance to use it.
+This will let us paint the same vanilla metals onto our meshes.
 
 1. Boot up UModel and rip the following folder, you can right click and export the whole folder all at once
     * `Game > FactoryGame > Buildable > ~Shared > Material > Resources`
-2. The output location doesn't matter
+2. Export these as `.TGA`s, list the export directory as the root folder for this project repo
+3. Once the export is done the root should have a new folder called `Game` and matching sub folders to the paths above
+4. Now open up `CommonFactoryMaterials.sbs` in Substance Designer and find the `Explorer` window
+5. Look for the Publish `.sbar` button, usually in the top left `Explorer` window
+6. Now Export the file as an `.sbar` wherever you wish
+7. Now open up Substance Painter and import the `.sbar`
+8. You should now have all the common materials from the atlas to start with.
