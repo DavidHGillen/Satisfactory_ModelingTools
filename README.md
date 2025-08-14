@@ -38,20 +38,17 @@ Just keep your UV stretching low and avoid obvious seams, then it'll probably wo
 Below are some instructions for more specific setups to make this is as good as we can.
 Most assume you know how to rip content so let's cover it here, ripping for personal use is legal, just avoid distributing what you rip, just like me not giving you these texture files.
 
-1. Get [Umodel](https://www.gildor.org/en/projects/umodel) and open it up
-2. Browse to the root of your Satisfactory install in Steam or Epic and `Select Folder`
-3. Check `Override Game Detection` and set it to UE 4.26
-4. Now hit `OK`, this may take a few moments to finish
-5. Browse through the folders to find whatever asset you're interested in. If you know it's name `Flat View` can get you to it much quicker
+1. Install and set up FModel by following [the directions in the Satisfactory Modding documentation](https://docs.ficsit.app/satisfactory-modding/latest/Development/ExtractGameFiles.html#FModel).
+2. Browse through the folders to find whatever asset you're interested in. If you know it's name, FModel's [search utility[(https://docs.ficsit.app/satisfactory-modding/latest/Development/ExtractGameFiles.html#_searching_for_files) can get you to it much quicker.
 
 ### Setup decal material proxies for Blender
 Meshes are coated in decals to add detail the repeating textures can't manage.
 The blender file has a spot where it knows to look for them, so let's export them there.
 
-1. Boot up UModel and rip the following two textures
+1. Boot up FModel and rip the following two textures
     * `Game > FactoryGame > Buildable > ~Shared > Texture > ColorAtlas_Alb.uasset`
     * `Game > FactoryGame > Buildable > ~Shared > Texture > PanelAtlas_Nor.uasset`
-2. Export these as `.TGA`s, list the export directory as the root folder for this project repo
+2. Export these as `.PNG`s, list the export directory as the root folder for this project repo
 3. Once the export is done the root should have a new folder called `Game` and matching sub folders to the paths above
 4. Reopen the blender files and it should show the decals textures now. Unfortunately it's not setup to actually show the normal only decals as just normals.
 
@@ -63,9 +60,9 @@ Not everything can use FactoryBase and sometimes we need to reluctantly paint un
 But we still want them to look like the materials the game uses, we're going to rip some content from the game and then configure Substance to use it.
 This will let us paint the same vanilla metals onto our meshes.
 
-1. Boot up UModel and rip the following folder, you can right click and export the whole folder all at once
+1. Boot up FModel and rip the following folder, you can right click and export the whole folder all at once (`Save Folder's Packages Textures`)
     * `Game > FactoryGame > Buildable > ~Shared > Material > Resources`
-2. Export these as `.TGA`s, list the export directory as the root folder for this project repo
+2. Export these as `.PNG`s, list the export directory as the root folder for this project repo
 3. Once the export is done the root should have a new folder called `Game` and matching sub folders to the paths above
 4. Now open up `CommonFactoryMaterials.sbs` in Substance Designer and find the `Explorer` window
 5. Look for the Publish `.sbar` button, usually in the top left `Explorer` window
